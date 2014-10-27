@@ -1,9 +1,0 @@
-
-/*
- * GET home page.
- */
-
-exports.index = function(req, res){
-  alert("sdvev");
-  res.render('index')
-};
