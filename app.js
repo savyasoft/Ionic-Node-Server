@@ -44,6 +44,8 @@ app.configure('production', function(){
 });
 
 
+// permissions for third party rest methods
+
 app.all('*', function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
     res.header('Access-Control-Allow-Methods', 'OPTIONS,GET,POST,PUT,DELETE');
