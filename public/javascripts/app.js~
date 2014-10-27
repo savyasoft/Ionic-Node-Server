@@ -1,0 +1,19 @@
+
+angular.module('myApp', [ "myApp.controllers" ])
+  .config(function( $routeProvider ) {
+    
+    $routeProvider.
+      when('/', {
+        templateUrl: 'views/index.html'
+      }).
+      when('/login', {
+        templateUrl: 'partials/login.html'
+      }).
+      when('/signup', {
+        templateUrl: 'partials/signup.html'
+      }).
+      otherwise({
+        redirectTo: '/'
+      });
+    //$locationProvider.html5Mode(true);
+  });
