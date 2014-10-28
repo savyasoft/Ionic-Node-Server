@@ -168,7 +168,7 @@ exports.requiresToken = function(req, res, next) {
             })
             .exec(function(err, user) {
                 if (err) return res.send(401, 'User is not authorized');
-                if (!user) return res.send(401, 'User is not authorized');
+                if (!user) return res.status(401).send('User is not authorized');
                 req.user = user;
                 next();
             });
