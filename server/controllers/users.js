@@ -28,6 +28,7 @@ exports.me = function(req, res) {
 
 // user creation function
 exports.create = function(req, res, next) {
+    console.log('came to the create request');
     var user = new User(req.body);
     user.provider = 'local';
 
@@ -168,7 +169,7 @@ exports.requiresToken = function(req, res, next) {
             })
             .exec(function(err, user) {
                 if (err) return res.send(401, 'User is not authorized');
-                if (!user) return res.send(401, 'User is not authorized');
+                if (!user) return res.status(401).send('User is not authorized');
                 req.user = user;
                 next();
             });
@@ -180,6 +181,7 @@ exports.requiresToken = function(req, res, next) {
 
 // function for log in function
 exports.facebookLogin = function(req, res) {
+    console.log('came to facebooklogin');
     User.findOne({
         email: req.body.email
     }).exec(function(err, user) {
@@ -191,6 +193,7 @@ exports.facebookLogin = function(req, res) {
             });
 
         } else {
+            console.log('came to no user');
             var user = new User(req.body);
             user.provider = 'facebook';
 
@@ -198,6 +201,7 @@ exports.facebookLogin = function(req, res) {
             user.roles = ['authenticated'];
             user.save(function(err) {
                 if (err) {
+                    console.log(err);
                     switch (err.code) {
                         case 11000:
                             res.status(400).send([{
@@ -230,7 +234,7 @@ exports.facebookLogin = function(req, res) {
 
                     return res.status(400);
                 }
-
+                console.log(user);
                 var token = generateToken(user);
                 res.send({
                     user: user,
