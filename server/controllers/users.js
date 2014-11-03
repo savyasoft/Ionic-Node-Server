@@ -154,6 +154,7 @@ var clearToken = function(req, done) {
 // validate the user using jwt token 
 exports.requiresToken = function(req, res, next) {
     var decoded = jwt.decode(req.query.token, jwtTokenSecret);
+      
 
     // time limit validation
     if (decoded.exp <= Date.now()) {
@@ -162,13 +163,16 @@ exports.requiresToken = function(req, res, next) {
 
     // user _id validation
     if (decoded.iss) {
+        
         User
-            .findOne({
-                _id: decoded.iss
-            })
+            .findById(
+                 decoded.iss
+            )
             .exec(function(err, user) {
+                console.log( "token" + user);
                 if (err) return res.send(401, 'User is not authorized');
-                if (!user) return res.status(401).send('User is not authorized');
+                if (!user)
+                      return res.status(401).send('User not found'); 
                 req.user = user;
                 next();
             });
@@ -179,21 +183,22 @@ exports.requiresToken = function(req, res, next) {
 
 
 // function for log in function
-exports.facebookLogin = function(req, res) {
+exports.socialLogin = function(req, res) {
     User.findOne({
         email: req.body.email
     }).exec(function(err, user) {
         if (user) {
-            var token = generateToken(user);
-            res.send({
-                user: user,
-                token: token
+
+            User.update({ _id : user._id } , req.body , function(){
+               var token = generateToken(user);
+               res.send({
+                   user: user,
+                   token: token
+               });
             });
 
         } else {
             var user = new User(req.body);
-            user.provider = 'facebook';
-
             // Hard coded for now. Will address this with the user permissions system in v0.3.5
             user.roles = ['authenticated'];
             user.save(function(err) {
