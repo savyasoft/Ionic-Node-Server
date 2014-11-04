@@ -188,7 +188,6 @@ exports.socialLogin = function(req, res) {
         email: req.body.email
     }).exec(function(err, user) {
         if (user) {
-
             User.update({ _id : user._id } , req.body , function(){
                var token = generateToken(user);
                res.send({
@@ -201,6 +200,14 @@ exports.socialLogin = function(req, res) {
             var user = new User(req.body);
             // Hard coded for now. Will address this with the user permissions system in v0.3.5
             user.roles = ['authenticated'];
+            if(user.provider !== "twitter"){
+              if(!user.email)
+               res.status(400).send([{
+                                msg: 'You must enter a valid email address',
+                                param: 'email'
+                            }]);
+            }
+
             user.save(function(err) {
                 if (err) {
                     switch (err.code) {
