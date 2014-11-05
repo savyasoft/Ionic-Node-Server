@@ -187,9 +187,19 @@ exports.requiresToken = function(req, res, next) {
 // function for log in function
 
 exports.socialLogin = function(req, res) {
-    User.findOne({
-        email: req.body.email
-    }).exec(function(err, user) {
+    var cred = {};
+    if(req.body.provider !== "twitter"){
+        if(!req.body.email)
+            return res.status(400).send([{
+                                msg: 'You must enter a valid email address',
+                                param: 'email'
+                   }]);
+         else
+            cred = { email: req.body.email }
+        }
+   else
+         cred = { username : req.body.username }
+    User.findOne(cred).exec(function(err, user) {
         if (user) {
             User.update({ _id : user._id } , req.body , function(){
                var token = generateToken(user);
@@ -204,14 +214,6 @@ exports.socialLogin = function(req, res) {
             var user = new User(req.body);
             // Hard coded for now. Will address this with the user permissions system in v0.3.5
             user.roles = ['authenticated'];
-            if(user.provider !== "twitter"){
-              if(!user.email)
-               return res.status(400).send([{
-                                msg: 'You must enter a valid email address',
-                                param: 'email'
-                            }]);
-            }
-
             user.save(function(err) {
                 if (err) {
                     console.log(err);
