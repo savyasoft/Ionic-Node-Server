@@ -38,43 +38,41 @@ var validateUniqueEmail = function(value, callback) {
  */
 
 var UserSchema = new Schema({
-  name: {
-    type: String
-  //  required: true
-  },
-  email: {
-    type: String,
-    required: true,
-    unique: true,
-    match: [/\S+@\S+\.\S+/, 'Please enter a valid email'],
-    validate: [validateUniqueEmail, 'E-mail address is already in-use']
-  },
-  username: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  roles: {
-    type: Array,
-    default: ['authenticated']
-  },
-  hashed_password: {
-    type: String,
-    validate: [validatePresenceOf, 'Password cannot be blank']
-  },
-  provider: {
-    type: String,
-    default: 'local'
-  },
-  salt: String,
-  resetPasswordToken: String,
-  resetPasswordExpires: Date,
-  facebook: {},
-  twitter: {},
-  github: {},
-  google: {},
-  linkedin: {}
-
+    name: {
+        type: String
+    },
+    email: {
+        type: String,
+        required: false,
+        unique: true,
+        match: [/\S+@\S+\.\S+/, 'Please enter a valid email'],
+        validate: [validateUniqueEmail, 'E-mail address is already in-use']
+    },
+    username: {
+        type: String,
+        unique: true,
+        required: true
+    },
+    roles: {
+        type: Array,
+        default: ['authenticated']
+    },
+    hashed_password: {
+        type: String,
+        validate: [validatePresenceOf, 'Password cannot be blank']
+    },
+    provider: {
+        type: String,
+        default: 'local'
+    },
+    salt: String,
+    resetPasswordToken: String,
+    resetPasswordExpires: Date,
+    facebook: {},
+    twitter: {},
+    github: {},
+    google: {},
+    linkedin: {}
 });
 
 /**
