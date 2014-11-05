@@ -206,7 +206,7 @@ exports.socialLogin = function(req, res) {
             user.roles = ['authenticated'];
             if(user.provider !== "twitter"){
               if(!user.email)
-               res.status(400).send([{
+               return res.status(400).send([{
                                 msg: 'You must enter a valid email address',
                                 param: 'email'
                             }]);
