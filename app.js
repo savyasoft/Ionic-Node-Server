@@ -70,8 +70,9 @@ app.get('/', routes.index);
     }), users.doLogin);
 
 
+
  app.get("/loggedin",users.loggedin);
- app.post("/facebooklogin",users.facebookLogin);
+ app.post("/sociallogin",users.socialLogin);
  app.post("/signoutapp",users.signoutapp);
  app.get('/userById' , users.requiresToken,users.me);
 
