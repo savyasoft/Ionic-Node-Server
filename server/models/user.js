@@ -7,9 +7,9 @@ var mongoose = require('mongoose'),
     Schema = mongoose.Schema,
     crypto = require('crypto');
 
-//mongoose.connect('mongodb://localhost/auth');
+mongoose.connect('mongodb://localhost/auth');
 
-mongoose.connect('mongodb://ionic:ionicuser@dogen.mongohq.com:10095/app31139887');
+//mongoose.connect('mongodb://ionic:ionicuser@dogen.mongohq.com:10095/app31139887');
 /**
  * Validations
  */
