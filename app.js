@@ -12,7 +12,7 @@ var passport = require('passport'),
     users =  require('./server/controllers/users.js'),
     expressValidator = require('express-validator');
 
-// Configuration
+// Configuration 
 
 app.configure(function(){
   app.set('views', __dirname + '/views');
